@@ -1,4 +1,4 @@
-class HolbertonClass {
+export class HolbertonClass {
   constructor(year, location) {
     if (typeof year !== 'number') {
       throw new TypeError('Year must be a number');
@@ -19,7 +19,7 @@ class HolbertonClass {
   }
 }
 
-class StudentHolberton {
+export class StudentHolberton {
   constructor(firstName, lastName, holbertonClass) {
     if (typeof firstName !== 'string') {
       throw new TypeError('Fisrt name must be a string');
