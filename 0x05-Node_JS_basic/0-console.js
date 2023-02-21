@@ -1,8 +1,9 @@
-/*
+/**
  * Prints a string to the standard output
+ * @param {String}
  */
 function displayMessage(message) {
-  process.stdout.write(`${message}\n`);
+  console.log(message);
 }
 
 module.exports = displayMessage;
