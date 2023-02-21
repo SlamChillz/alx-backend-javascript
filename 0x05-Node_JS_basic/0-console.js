@@ -1,7 +1,7 @@
 /*
  * Prints a string to the standard output
  */
-function displayMessage(message) { /* eslint-disable-line no-unused-vars */
+function displayMessage(message) {
   process.stdout.write(message);
 }
 
