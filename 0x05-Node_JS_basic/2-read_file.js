@@ -3,35 +3,31 @@
  */
 const fs = require('fs');
 
-function countStudents(filepath) {
-  let studentCount = 0;
-  let report = {};
+function countStudents(path) {
+  let db;
   try {
-    const content = fs.readFileSync(filepath, { encoding: 'utf8' }).split('\n').slice(1);
-    report = content.reduce((records, curr) => {
-      if (curr.length > 3) {
-        const line = curr.split(',');
-        const field = line[3];
-        if (field.length > 0 && line[0] !== ' ') {
-          studentCount += 1;
-          const value = records[field] ? records[field] : '';
-          if (value === '') {
-            return { ...records, [field]: `${line[0]}` };
-          }
-          return { ...records, [field]: `${value}, ${line[0]}` };
-        }
-      }
-      return records;
-    }, {});
-    if (studentCount > 0) {
-      console.log(`Number of students: ${studentCount}`);
-      for (const [k, v] of Object.entries(report)) {
-        console.log(`Number of students in ${k}: ${v.split(',').length}. List: ${v.trim()}`);
-      }
-    }
-  } catch (e) {
+    db = fs.readFileSync(path, { encoding: 'utf8', flag: 'r' });
+  } catch (err) {
     throw new Error('Cannot load the database');
   }
+
+  const data = db.split('\n');
+  const cslist = [];
+  const swlist = [];
+
+  data.forEach((stud) => {
+    const elem = stud.split(',');
+    if (elem !== [] && elem !== null) {
+      if (elem[3] === 'CS') {
+        cslist.push(elem[0]);
+      } else if (elem[3] === 'SWE') {
+        swlist.push(elem[0]);
+      }
+    }
+  });
+  console.log(`Number of students: ${cslist.length + swlist.length}`);
+  console.log(`Number of students in CS: ${cslist.length}. List: ${cslist.join(', ')}`);
+  console.log(`Number of students in SWE: ${swlist.length}. List: ${swlist.join(', ')}`);
 }
 
 module.exports = countStudents;
