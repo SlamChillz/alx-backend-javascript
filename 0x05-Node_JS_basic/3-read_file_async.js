@@ -1,39 +1,32 @@
 /**
- * Reads file asynchronously and prepares a record with the data
+ * Reads file asynchronously and prepares a report with the data from a csv file
  */
 const fs = require('fs');
 
-function countStudents(filepath) {
+function countStudents(path) {
   return new Promise((resolve, reject) => {
-    fs.readFile(filepath, 'utf8', (err, data) => {
-      if (err) {
-        return reject(new Error('Cannot load the database'));
-      }
-      let studentCount = 0;
-      let report = {};
-      const content = data.split('\n').slice(1);
-      report = content.reduce((records, curr) => {
-        if (curr.length > 3) {
-          const line = curr.split(',');
-          const field = line[3];
-          if (field.length > 0 && line[0] !== ' ') {
-            studentCount += 1;
-            const value = records[field] ? records[field] : '';
-            if (value === '') {
-              return { ...records, [field]: `${line[0]}` };
+    fs.readFile(path, 'utf8', (err, records) => {
+      if (err) reject(new Error('Cannot load the database'));
+      else {
+        const content = records.split('\n');
+        const cslist = [];
+        const swelist = [];
+
+        content.forEach((record) => {
+          const field = record.split(',');
+          if (field !== [] && field !== null) {
+            if (field[3] === 'CS') {
+              cslist.push(field[0]);
+            } else if (field[3] === 'SWE') {
+              swelist.push(field[0]);
             }
-            return { ...records, [field]: `${value}, ${line[0]}` };
           }
-        }
-        return records;
-      }, {});
-      if (studentCount > 0) {
-        console.log(`Number of students: ${studentCount}`);
-        for (const [k, v] of Object.entries(report)) {
-          console.log(`Number of students in ${k}: ${v.split(',').length}. List: ${v.trim()}`);
-        }
+        });
+        console.log(`Number of students: ${cslist.length + swelist.length}`);
+        console.log(`Number of students in CS: ${cslist.length}. List: ${cslist.join(', ')}`);
+        console.log(`Number of students in SWE: ${swelist.length}. List: ${swelist.join(', ')}`);
+        resolve();
       }
-      return resolve();
     });
   });
 }
