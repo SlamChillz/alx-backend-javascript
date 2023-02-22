@@ -22,7 +22,7 @@ class StudentsController {
       }
     } catch (err) {
       response.statusCode = 500;
-      response.write('Cannot load the database');
+      response.write(err.message);
     }
     response.end();
   }
@@ -39,7 +39,7 @@ class StudentsController {
         response.write(`List: ${records[major.toUpperCase()].join(', ')}`);
       } catch (err) {
         response.statusCode = 500;
-        response.write('Cannot load the database');
+        response.write(err.message);
       }
       response.end();
     }
