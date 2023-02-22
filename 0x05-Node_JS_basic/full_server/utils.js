@@ -14,7 +14,7 @@ function readDatabase(path) {
         content.forEach((record) => {
           const line = record.split(',');
           if (line[3] && line[0]) {
-            if (Object.keys(report).indexOf(line[3]) == -1) {
+            if (Object.keys(report).indexOf(line[3]) === -1) {
               report[line[3]] = [line[0]];
             } else {
               (report[line[3]]).push(line[0]);
