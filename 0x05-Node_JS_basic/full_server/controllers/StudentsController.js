@@ -3,12 +3,10 @@
  */
 import readDatabase from '../utils';
 
-const filepath = process.argv.length > 2 ? process.argv[2] : '';
-
 class StudentsController {
   static async getAllStudents(request, response) {
-    response.write('This is the list of our students\n');
     try {
+      const filepath = process.argv.length > 2 ? process.argv[2] : '';
       const records = await readDatabase(filepath);
       const fields = Object.keys(records);
       fields.sort((x, y) => {
@@ -16,6 +14,8 @@ class StudentsController {
         if (x > y) return 1;
         return 0;
       });
+      response.statusCode = 200;
+      response.write('This is the list of our students\n');
       for (const field of fields) {
         response.write(`Number of students in ${field}: ${records[field].length}. List: ${records[field].join(', ')}`);
         if (fields.indexOf(field) !== fields.length - 1) response.write('\n');
@@ -33,6 +33,7 @@ class StudentsController {
       response.statusCode = 500;
       response.send('Major parameter must be CS or SWE');
     } else {
+      const filepath = process.argv.length > 2 ? process.argv[2] : '';
       try {
         const records = await readDatabase(filepath);
         response.statusCode = 200;
