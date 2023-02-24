@@ -16,10 +16,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 12
-        cache: 'npm'
+
+    - name: Install node 12.x.x
+      run: |
+        curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh
+        sudo bash nodesource_setup.sh
+        sudo apt install nodejs -y
+        rm nodesource_setup.sh
 
     - name: Run npm clean install
       run: npm ci
