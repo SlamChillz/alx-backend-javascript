@@ -1,0 +1,34 @@
+name: Node.js Unitests CI Workflow
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    defaults:
+      run:
+        working-directory: ./0x06-unittests_in_js
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install node 12.x.x
+      run: |
+        curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh
+        sudo bash nodesource_setup.sh
+        sudo apt install nodejs -y
+        rm nodesource_setup.sh
+
+    - name: Run npm clean install
+      run: npm ci
+
+    - name: Run npm build if present
+      run: npm run build --if-present
+    
+    - name: Run unit and integration tests
+      run: npm run test *.test.js
