@@ -2,7 +2,7 @@
  * Defines utilities
  */
 const Utils = {
-  calculateNumber: function(type, a, b) {
+  calculateNumber(type, a, b) {
     let result;
     if (type === 'SUM') {
       result = Math.round(a) + Math.round(b);
@@ -17,6 +17,6 @@ const Utils = {
     }
     return result;
   },
-}
+};
 
 module.exports = Utils;
