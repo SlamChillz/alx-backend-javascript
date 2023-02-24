@@ -5,7 +5,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
 const Utils = require('./utils');
-const sendPaymentRequestToApi = require('./3-payment');
+const sendPaymentRequestToApi = require('./4-payment');
 
 describe('sendPaymentRequestToAp', function() {
   beforeEach(function() {
